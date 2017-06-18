@@ -32,7 +32,7 @@ if [[ ! -f $CACHE_DIR/.cmake/usr/lib/cmake.so.3.9.0 ]]; then
   pushd $BUILD_DIR/.cmake
 
   topic "Extracting archive"
-  tar zxvf $CACHE_DIR/cmake.tar.gz cmake-installed
+  tar xf $CACHE_DIR/cmake.tar.gz
 
 fi
 
@@ -59,8 +59,8 @@ if [[ ! -f $CACHE_DIR/.libgit2/usr/lib/libgit2.so.0.25.1 ]]; then
   cd libgit2-*
   mkdir build && cd build
   mkdir -p $CACHE_DIR/.libgit2/usr
-  ../cmake-installed/bin/cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
-  ../cmake-installed/bin/cmake --build . --target install
+  ../cmake/bin/cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
+  ../cmake/bin/cmake --build . --target install
 
   popd
 fi
