@@ -36,10 +36,8 @@ if [[ ! -f $CACHE_DIR/.cmake/usr/lib/cmake.so.3.9.0 ]]; then
 
 fi
 
-topic "Loading cache libgit2"
-cp -r $CACHE_DIR/.libgit2/usr/* $APT_DIR/usr/
-
-
+# topic "Loading cache "
+# ln -s $CACHE_DIR/.cmake/bin/cmake $APT_DIR/usr/bin/cmake
 
 # install libgit2
 
