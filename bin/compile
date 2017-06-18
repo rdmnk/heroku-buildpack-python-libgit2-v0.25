@@ -54,8 +54,8 @@ if [[ ! -f $CACHE_DIR/.libgit2/usr/lib/libgit2.so.0.25.1 ]]; then
   cd libgit2-*
   mkdir build && cd build
   mkdir -p $CACHE_DIR/.libgit2/usr
-  $CACHE_DIR/.cmake/bin/cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
-  $CACHE_DIR/.cmake/bin/cmake --build . --target install
+  $BUILD_DIR/.cmake/bin/cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
+  $BUILD_DIR/.cmake/bin/cmake --build . --target install
 
   popd
 fi
