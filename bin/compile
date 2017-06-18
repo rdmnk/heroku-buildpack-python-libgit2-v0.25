@@ -21,6 +21,26 @@ export LIBRARY_PATH=/app/vendor/apt/usr/lib:$APT_DIR/usr/lib:$LIBRARY_PATH
 export LD_LIBRARY_PATH=/app/vendor/apt/usr/lib:$APT_DIR/usr/lib:$LIBRARY_PATH
 hash -r
 
+# install cmake
+mkdir -p $BUILD_DIR/.cmake
+mkdir -p $CACHE_DIR/.cmake
+
+if [[ ! -f $CACHE_DIR/.cmake/usr/lib/cmake.so.3.9.0]]; then
+  topic "Downloading CMake source"
+  curl -L -o $CACHE_DIR/cmake.tar.gz https://cmake.org/files/v3.9/cmake-3.9.0-rc3-Linux-x86_64.tar.gz
+
+  pushd $BUILD_DIR/.cmake
+
+  topic "Extracting archive"
+  tar zxvf $CACHE_DIR/cmake.tar.gz cmake-installed
+
+fi
+
+topic "Loading cache libgit2"
+cp -r $CACHE_DIR/.libgit2/usr/* $APT_DIR/usr/
+
+
+
 # install libgit2
 
 mkdir -p $BUILD_DIR/.libgit2
@@ -39,8 +59,8 @@ if [[ ! -f $CACHE_DIR/.libgit2/usr/lib/libgit2.so.0.25.1 ]]; then
   cd libgit2-*
   mkdir build && cd build
   mkdir -p $CACHE_DIR/.libgit2/usr
-  cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
-  cmake --build . --target install
+  ../cmake-installed/bin/cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
+  ../cmake-installed/bin/cmake --build . --target install
 
   popd
 fi
