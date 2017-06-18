@@ -5,20 +5,20 @@ set -e
 
 BUILD_DIR=$1
 CACHE_DIR=$2
-APT_DIR=$HOME/vendor/apt
+APT_DIR=/usr/local/
 
 function topic() {
   echo "-----> $*"
 }
 
 # Update env
-export PATH=$APT_DIR/usr/bin:$PATH
-export INCLUDE_PATH=/app/vendor/apt/usr/include:$APT_DIR/usr/include:$INCLUDE_PATH
+export PATH=$APT_DIR/bin:$PATH
+export INCLUDE_PATH=/app/vendor/apt/usr/include:$APT_DIR/include:$INCLUDE_PATH
 export INCLUDE=$INCLUDE_PATH
 export C_INCLUDE_PATH=$INCLUDE_PATH
 export CPP_INCLUDE_PATH=$INCLUDE_PATH
-export LIBRARY_PATH=/app/vendor/apt/usr/lib:$APT_DIR/usr/lib:$LIBRARY_PATH
-export LD_LIBRARY_PATH=/app/vendor/apt/usr/lib:$APT_DIR/usr/lib:$LIBRARY_PATH
+export LIBRARY_PATH=/app/vendor/apt/usr/lib:$APT_DIR/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/app/vendor/apt/usr/lib:$APT_DIR/lib:$LIBRARY_PATH
 hash -r
 
 # install cmake
@@ -36,8 +36,8 @@ if [[ ! -f $CACHE_DIR/.cmake/usr/lib/cmake.so.3.9.0 ]]; then
 
 fi
 
-# topic "Loading cache "
-# ln -s $CACHE_DIR/.cmake/bin/cmake $APT_DIR/usr/bin/cmake
+topic "Loading cache "
+ln -s $CACHE_DIR/.cmake/bin/cmake $APT_DIR/bin/cmake
 
 # install libgit2
 
@@ -57,14 +57,14 @@ if [[ ! -f $CACHE_DIR/.libgit2/usr/lib/libgit2.so.0.25.1 ]]; then
   cd libgit2-*
   mkdir build && cd build
   mkdir -p $CACHE_DIR/.libgit2/usr
-  ../cmake/bin/cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
-  ../cmake/bin/cmake --build . --target install
+  cmake .. -DCMAKE_INSTALL_PREFIX=$CACHE_DIR/.libgit2/usr/
+  cmake --build . --target install
 
   popd
 fi
 
 topic "Loading cache libgit2"
-cp -r $CACHE_DIR/.libgit2/usr/* $APT_DIR/usr/
+cp -r $CACHE_DIR/.libgit2/usr/* $APT_DIR/
 
 # debug
 topic "Checking libgit2"
